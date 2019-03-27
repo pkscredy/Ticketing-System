@@ -2,8 +2,8 @@
 # from django.urls import reverse
 from rest_framework.test import APITestCase
 
-from ticket.models import TicketActivity
 from ticket.handlers.tickets import TicketAct
+from ticket.models import TicketActivity
 
 
 class TicketActTest(APITestCase):

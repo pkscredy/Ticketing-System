@@ -1,12 +1,11 @@
-from rest_framework.views import APIView
-from rest_framework import status
-from rest_framework.response import Response
-
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import render
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 # from ticket.models import TicketActivity
-from ticket.constants import All_TICKET_TEMPLATE, RAISE_TICKET_TEMPLATE
+from ticket.constants import RAISE_TICKET_TEMPLATE, All_TICKET_TEMPLATE
 from ticket.handlers.tickets import TicketAct
 
 

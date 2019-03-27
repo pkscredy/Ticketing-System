@@ -16,13 +16,9 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from ticket.views import (
-                        ModifyTicketView,
-                        RetreiveTicketView,
-                        TicketActivityView,
-                        TicketHtmlView,
-                        AssignedTicketView
-                    )
+from ticket.views import (AssignedTicketView, ModifyTicketView,
+                          RetreiveTicketView, TicketActivityView,
+                          TicketHtmlView)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

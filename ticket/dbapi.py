@@ -1,5 +1,4 @@
 from base.dbapi import AbstractBaseDbIO
-
 from ticket.models import TicketActivity, TicketAttachment, TrackTicket
 
 

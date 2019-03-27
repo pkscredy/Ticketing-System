@@ -1,7 +1,8 @@
+from django.contrib.auth.models import User
+
+from ticket.choices import TicketStatus
 from ticket.dbapi import TicketActivityDbio, TrackTicketDbio
 from ticket.models import TicketActivity
-from django.contrib.auth.models import User
-from ticket.choices import TicketStatus
 
 
 class TicketAct:

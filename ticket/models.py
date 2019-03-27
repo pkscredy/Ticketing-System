@@ -1,8 +1,8 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
+
 from base.fields import ChoicesField
 from base.models import AbstractAuditModel
-
 from ticket.choices import Department, TicketCategory, TicketStatus
 
 

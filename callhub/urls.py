@@ -19,14 +19,18 @@ from django.contrib import admin
 from ticket.views import (
                         ModifyTicketView,
                         RetreiveTicketView,
-                        TicketActivityView
+                        TicketActivityView,
+                        TicketHtmlView
                     )
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^raise_ticket/$', TicketActivityView.as_view(), name='raise_ticket'),
-    url(r'^get_tickets/$', TicketActivityView.as_view(), name='raise_ticket'),
+    url(r'^raise_ticket/$', TicketHtmlView.as_view(), name='raise_ticket'),
+    url(r'^get_tickets/$', TicketActivityView.as_view(), name='get_tickets'),
     url(r'^ticket_with/$', RetreiveTicketView.as_view(), name='ticket_with'),
-    url(r'^modify_ticket/$', ModifyTicketView.as_view(), name='ticket_with'),
-    url(r'^delete_ticket/$', ModifyTicketView.as_view(), name='ticket_with'),
+    url(r'^modify_ticket/$', ModifyTicketView.as_view(), name='modify_ticket'),
+    url(r'^delete_ticket/$', ModifyTicketView.as_view(), name='delete_ticket'),
+    url(r'^update_ticket/(?P<ticket_uuid>[0-9a-z-]+)/$',
+        ModifyTicketView.as_view(), name='update_ticket'),
+
 ]

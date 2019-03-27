@@ -12,10 +12,11 @@ class TicketAct:
             'urgent': data.get('urgent')
         }
         obj = TicketActivityDbio().create_obj(tkt_data)
-        return {
-            'message': 'Ticket has been raised successfully',
-            'tkt_uuid': obj.uuid
-        }
+        return obj
+        # return {
+        #     'message': 'Ticket has been raised successfully',
+        #     'tkt_uuid': obj.uuid
+        # }
 
     def get_all_tickets(self):
         objs = TicketActivity.objects.all()
@@ -23,13 +24,14 @@ class TicketAct:
             return {
                 'message': 'No tickets are available'
             }
-        tkt_list = []
-        for obj in objs:
-            tkt_data = {
-                'tkt_uuid': obj.uuid
-            }
-            tkt_list.append(tkt_data)
-        return tkt_list
+        return objs
+        # tkt_list = []
+        # for obj in objs:
+        #     tkt_data = {
+        #         'tkt_uuid': obj.uuid
+        #     }
+        #     tkt_list.append(tkt_data)
+        # return tkt_list
 
     def get_with_state(self, dept=None, cat=None, state=None, urgent=None):
         if dept is not None:

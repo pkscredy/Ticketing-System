@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load tz %}
+
+{% block style %}
+
+{% endblock %}
+
+  {% block content %}
+
+
+<div class="container">
+{% for info in tkt_info %}
+<form class="form-horizontal"
+      method="post"
+      enctype="multipart/form-data"
+      action="{% url 'raise_ticket' %}">
+
+          {% csrf_token %}
+
+            <table class="table table-striped">
+                {% if forloop.counter == 1 %}
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Subject</th>
+                  <th>Content</th>
+                  <th>Department</th>
+                  <th>Category</th>
+                  <th>Status</th>
+                  <th>Urgent</th>
+                </tr>
+              </thead>
+                {% endif %}
+              <tbody>
+                <tr>
+                  <td class="action-checkbox"><input type="checkbox"
+                    name="_selected_action" class="action-select"
+                    value="{{ info.uuid }}"/></td>
+                  <td> <a href="{% url 'update_ticket' info.uuid %}" target="_blank">
+                     {{ info.subject }} </a>
+                   </td>
+                  <td>{{ info.content }}</td>
+                  <td>{{ info.get_department_display|upper }}</td>
+                  <td>{{ info.get_category_display }}</td>
+                  <td>{{ info.get_status_display }}</td>
+                  <td>{{ info.urgent }}</td>
+
+                </tr>
+              </tbody>
+            </table>
+
+            <input type="hidden" name="ticket_uuid" value="{{ info.uuid }}">
+        </form>
+  {% endfor %}
+    </div>
+
+  {% endblock %}

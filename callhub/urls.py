@@ -20,7 +20,8 @@ from ticket.views import (
                         ModifyTicketView,
                         RetreiveTicketView,
                         TicketActivityView,
-                        TicketHtmlView
+                        TicketHtmlView,
+                        AssignedTicketView
                     )
 
 urlpatterns = [
@@ -32,5 +33,6 @@ urlpatterns = [
     url(r'^delete_ticket/$', ModifyTicketView.as_view(), name='delete_ticket'),
     url(r'^update_ticket/(?P<ticket_uuid>[0-9a-z-]+)/$',
         ModifyTicketView.as_view(), name='update_ticket'),
-
+    url(r'^assign_ticket/$', AssignedTicketView.as_view(),
+        name='assign_ticket'),
 ]

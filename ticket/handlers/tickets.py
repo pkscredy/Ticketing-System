@@ -1,5 +1,7 @@
-from ticket.dbapi import TicketActivityDbio
+from ticket.dbapi import TicketActivityDbio, TrackTicketDbio
 from ticket.models import TicketActivity
+from django.contrib.auth.models import User
+from ticket.choices import TicketStatus
 
 
 class TicketAct:
@@ -89,4 +91,28 @@ class TicketAct:
         ).delete()
         return {
             'message': 'ticket deleted'
+        }
+
+    def assigne_ticket(self, data):
+        # import ipdb; ipdb.set_trace()
+        from_obj = User.objects.get(id=data['from_id'])
+        to_obj = User.objects.get(id=data['to_id'])
+        obj = TicketActivityDbio().get_object(
+            {
+                'uuid': data['ticket_uuid']
+            }
+        )
+        tkt_obj = TicketActivityDbio().update_obj(obj, {
+            'status': TicketStatus.ASSIGNED.value
+            }
+        )
+        TrackTicketDbio().create_obj(
+            {
+                'from_user': from_obj,
+                'to_user': to_obj,
+                'ticket': tkt_obj
+            }
+        )
+        return {
+            'message': 'Ticket has been assigned'
         }

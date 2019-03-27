@@ -58,6 +58,7 @@ class RetreiveTicketView(APIView):
 
 
 class ModifyTicketView(APIView):
+
     def put(self, request, ticket_uuid):
         data = request.data
         # ticket_uuid = request.query_params.get('ticket_uuid')
@@ -67,4 +68,11 @@ class ModifyTicketView(APIView):
     def delete(self, request):
         ticket_uuid = request.query_params.get('ticket_uuid')
         response = TicketAct().delete_ticket(ticket_uuid)
+        return Response(response, status=status.HTTP_200_OK)
+
+
+class AssignedTicketView(APIView):
+    def post(self, request):
+        data = request.data
+        response = TicketAct().assigne_ticket(data)
         return Response(response, status=status.HTTP_200_OK)

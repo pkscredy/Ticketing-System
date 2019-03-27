@@ -6,10 +6,21 @@
     .jumbotron {
       text-align: center;
     }
+    #home {
+      float: right;
+      height: 35px;
+      color: #fff;
+      background: #337ab7;
+      padding: 10px;
+      margin-top: -20px;
+    }
   </style>
 {% endblock %}
 
   {% block jumbotron %}
+
+  <a href="{% url 'get_tickets' %}" id="home" right>Home</a>
+<hr>
 
           <div class="jumbotron">
 

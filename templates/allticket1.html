@@ -2,13 +2,33 @@
 {% load tz %}
 
 {% block style %}
-
+<style media="screen">
+  td.action-checkbox {
+      width: 10px;
+  }
+  td{
+    width: 100px;
+    text-align: justify;
+  }
+  #raise-ticket {
+    float: right;
+    height: 35px;
+    color: #fff;
+    background: #337ab7;
+    padding: 10px;
+    margin-top: -20px;
+  }
+</style>
 {% endblock %}
 
   {% block content %}
 
 
 <div class="container">
+
+      <a href="{% url 'raise_ticket' %}" id="raise-ticket" right>Click here to raise a ticket</a>
+<hr>
+
 {% for info in tkt_info %}
 <form class="form-horizontal"
       method="post"

@@ -14,6 +14,11 @@
       padding: 10px;
       margin-top: -20px;
     }
+    .divider{
+    width:5px;
+    height:auto;
+    display:inline-block;
+}
   </style>
 {% endblock %}
 
@@ -27,7 +32,7 @@
                 <form class="form-horizontal"
                       method="post"
                       enctype="multipart/form-data"
-                      action="{% url 'raise_ticket' %}">
+                      action="{% url 'modify_ticket' info.uuid %}">
                       {% csrf_token %}
 
                       <div class="form-group">
@@ -62,9 +67,12 @@
                           <label for="category" class="col-sm-5 col-form-label">Category</label>
                           <div class="col-sm-4">
                             <select name="category">
-                              <option value=1>Payment</option>
-                              <option value=2>Loan</option>
-                              <option value=3>Others</option>
+                              <option value=1 {% if info.category == 1 %}selected="selected"{% endif %}>
+                                Payment</option>
+                              <option value=2  {% if info.category == 2 %}selected="selected"{% endif %}>
+                                Loan</option>
+                              <option value=3  {% if info.category == 3 %}selected="selected"{% endif %}>
+                                Others</option>
                             </select>
                           </div>
                         </div>
@@ -72,10 +80,14 @@
                       <label for="department" class="col-sm-5 col-form-label">Department</label>
                       <div class="col-sm-4">
                         <select name="department">
-                          <option value=1>IT</option>
-                          <option value=2>Sales</option>
-                          <option value=3>Operation</option>
-                          <option value=4>HR</option>
+                          <option value=1 {% if info.department == 1 %}selected="selected"{% endif %}>
+                            IT</option>
+                          <option value=2 {% if info.department == 2 %}selected="selected"{% endif %}>
+                            Sales</option>
+                          <option value=3 {% if info.department == 3 %}selected="selected"{% endif %}>
+                            Operation</option>
+                          <option value=4 {% if info.department == 4 %}selected="selected"{% endif %}>
+                            HR</option>
                         </select>
 
                       </div>
@@ -84,15 +96,23 @@
                       <label for="urgent" class="col-sm-5 col-form-label">Urgent</label>
                       <div class="col-sm-4">
                         <select name="urgent">
-                          <option value="True">True</option>
-                          <option value="False">False</option>
+                          <option value="True" {% if info.urgent == True %}selected="selected"{% endif %}>
+                            True</option>
+                          <option value="False" {% if info.urgent == False %}selected="selected"{% endif %}>
+                            False</option>
                         </select>
                       </div>
                     </div>
 
                     <hr>
+                      <!-- <input type="hidden" name="_method" value="PUT"> -->
 
-                      <button type="submit" class="btn btn-primary">Submit</button>
+                      <button type="submit" name="_method" value="PUT"
+                      class="btn btn-primary">Update</button>
+                      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                      <button type="submit" name="_method" value="DELETE"
+                      class="btn btn-primary">Delete</button>
+
               </form>
 
           </div>

@@ -18,12 +18,15 @@
     padding: 10px;
     margin-top: -20px;
   }
+  span {
+  background-color: #d5f4e6;
+}
 </style>
 {% endblock %}
 
   {% block content %}
 
-
+<p><span>Note:</span>Click on Ticket to update/Delete</p>
 <div class="container">
 
       <a href="{% url 'raise_ticket' %}" id="raise-ticket" right>Click here to raise a ticket</a>
@@ -48,6 +51,7 @@
                   <th>Category</th>
                   <th>Status</th>
                   <th>Urgent</th>
+                  <th>Created on</th>
                 </tr>
               </thead>
                 {% endif %}
@@ -56,7 +60,7 @@
                   <td class="action-checkbox"><input type="checkbox"
                     name="_selected_action" class="action-select"
                     value="{{ info.uuid }}"/></td>
-                  <td> <a href="{% url 'update_ticket' info.uuid %}" target="_blank">
+                  <td> <a href="{% url 'update_ticket' info.uuid %}">
                      {{ info.subject }} </a>
                    </td>
                   <td>{{ info.content }}</td>
@@ -64,6 +68,7 @@
                   <td>{{ info.get_category_display }}</td>
                   <td>{{ info.get_status_display }}</td>
                   <td>{{ info.urgent }}</td>
+                  <td>{{ info.created_at }}</td>
 
                 </tr>
               </tbody>

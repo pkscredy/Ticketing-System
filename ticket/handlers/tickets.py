@@ -79,10 +79,11 @@ class TicketAct:
             'urgent': data.get('urgent', obj.urgent)
         }
         TicketActivityDbio().update_obj(obj, tkt_data)
-        return {
-            'message': 'Ticket has been modified',
-            'ticket_uuid': obj.uuid
-        }
+        return obj
+        # return {
+        #     'message': 'Ticket has been modified',
+        #     'ticket_uuid': obj.uuid
+        # }
 
     def delete_ticket(self, ticket_uuid):
         TicketActivityDbio().get_object(
@@ -117,3 +118,10 @@ class TicketAct:
         return {
             'message': 'Ticket has been assigned'
         }
+
+    def retreive_single_ticket(self, ticket_uuid):
+        return TicketActivityDbio().get_object(
+            {
+                'uuid': ticket_uuid
+            }
+        )

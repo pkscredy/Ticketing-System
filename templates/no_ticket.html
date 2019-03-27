@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load tz %}
+
+{% block style %}
+  <style>
+    .jumbotron {
+      text-align: center;
+    }
+    #raise-ticket {
+      float: right;
+      height: 35px;
+      color: #fff;
+      background: #337ab7;
+      padding: 10px;
+      margin-top: -20px;
+    }
+  </style>
+{% endblock %}
+
+  {% block jumbotron %}
+  <a href="{% url 'raise_ticket' %}" id="raise-ticket" right>Click here to raise a ticket</a>
+<hr>
+
+<p>Oops!  No tickets are available</p>
+
+
+{% endblock %}

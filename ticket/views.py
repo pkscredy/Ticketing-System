@@ -1,5 +1,8 @@
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.contrib import messages
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import reverse
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -10,15 +13,12 @@ from ticket.handlers.tickets import TicketAct
 
 
 class TicketActivityView(APIView):
-    def post(self, request):
-        # import ipdb; ipdb.set_trace()
-        data = request.data
-        tkt_obj = TicketAct().create_issue(data)
-        return render(request, RAISE_TICKET_TEMPLATE, {'tkt_info': tkt_obj})
-        # return Response(response, status=status.HTTP_201_CREATED)
 
     def get(self, request):
+        # import ipdb; ipdb.set_trace()
         objs = TicketAct().get_all_tickets()
+        if 'message' in objs:
+            return render(request, 'no_ticket.html')
 
         paginator = Paginator(objs, 15)  # Show 15 ticket per page
         page = request.GET.get('page')
@@ -33,8 +33,6 @@ class TicketActivityView(APIView):
 
         return render(request, All_TICKET_TEMPLATE, {'tkt_info': tickets})
 
-        # return Response(response, status=status.HTTP_200_OK)
-
 
 class TicketHtmlView(APIView):
     def get(self, request):
@@ -43,6 +41,7 @@ class TicketHtmlView(APIView):
     def post(self, request):
         data = request.data
         tkt_obj = TicketAct().create_issue(data)
+        messages.success(request, 'The Ticket has been Created')
         return render(request, RAISE_TICKET_TEMPLATE, {'tkt_info': tkt_obj})
 
 
@@ -58,16 +57,27 @@ class RetreiveTicketView(APIView):
 
 class ModifyTicketView(APIView):
 
+    def get(self, request, ticket_uuid):
+        obj = TicketAct().retreive_single_ticket(ticket_uuid)
+        return render(request, 'view_ticket.html', {'info': obj})
+
+    def post(self, request, ticket_uuid):
+        data = request.data
+        if data.get('_method') == 'PUT':
+            return self.put(request, ticket_uuid)
+        return self.delete(request, ticket_uuid)
+
     def put(self, request, ticket_uuid):
         data = request.data
-        # ticket_uuid = request.query_params.get('ticket_uuid')
-        response = TicketAct().modify(ticket_uuid, data)
-        return Response(response, status=status.HTTP_200_OK)
+        obj = TicketAct().modify(ticket_uuid, data)
+        messages.success(request, 'The Ticket has been Updated')
+        return render(request, 'view_ticket.html', {'info': obj})
 
-    def delete(self, request):
-        ticket_uuid = request.query_params.get('ticket_uuid')
-        response = TicketAct().delete_ticket(ticket_uuid)
-        return Response(response, status=status.HTTP_200_OK)
+    def delete(self, request, ticket_uuid):
+        TicketAct().delete_ticket(ticket_uuid)
+        arg_num = reverse('get_tickets')
+        messages.success(request, 'The Ticket has been Deleted')
+        return HttpResponseRedirect(arg_num)
 
 
 class AssignedTicketView(APIView):

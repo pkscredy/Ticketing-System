@@ -44,7 +44,7 @@
                 {% if forloop.counter == 1 %}
               <thead>
                 <tr>
-                  <th></th>
+                  <th>S. No</th>
                   <th>Subject</th>
                   <th>Content</th>
                   <th>Department</th>
@@ -57,9 +57,7 @@
                 {% endif %}
               <tbody>
                 <tr>
-                  <td class="action-checkbox"><input type="checkbox"
-                    name="_selected_action" class="action-select"
-                    value="{{ info.uuid }}"/></td>
+                  <td> {{ forloop.counter }}</td>
                   <td> <a href="{% url 'update_ticket' info.uuid %}">
                      {{ info.subject }} </a>
                    </td>

@@ -57,7 +57,7 @@
                 {% endif %}
               <tbody>
                 <tr>
-                  <td> {{ forloop.counter }}</td>
+                  <td style="width: 50px;""> {{ forloop.counter }}</td>
                   <td> <a href="{% url 'update_ticket' info.uuid %}">
                      {{ info.subject }} </a>
                    </td>

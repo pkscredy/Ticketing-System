@@ -17,6 +17,10 @@ choices = {
         'sales': 2,
         'operation': 3,
         'hr': 4
+    },
+    'urgent': {
+        'true': True,
+        'false': False
     }
 }
 

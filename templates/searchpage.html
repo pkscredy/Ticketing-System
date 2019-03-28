@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load tz %}
+
+{% block style %}
+<style media="screen">
+  td.action-checkbox {
+      width: 10px;
+  }
+  td{
+    width: 100px;
+    text-align: justify;
+  }
+  #home {
+    float: right;
+    height: 35px;
+    color: #fff;
+    background: #337ab7;
+    padding: 10px;
+    margin-top: -20px;
+  }
+  #space {
+    float: right;
+    height: 35px;
+    color: #fff;
+    background: #fcf8e3;
+    padding: 20px;
+    margin-top: -20px;
+  }
+  #raise-ticket {
+    float: right;
+    height: 35px;
+    color: #fff;
+    background: #337ab7;
+    padding: 10px;
+    margin-top: -20px;
+  }
+  span {
+  background-color: #d5f4e6;
+}
+
+</style>
+{% endblock %}
+
+  {% block content %}
+
+
+<div class="container">
+      <a href="{% url 'get_tickets' %}" id="home" right>Home</a>
+      <p id="space" right></p>
+      <a href="{% url 'raise_ticket' %}" id="raise-ticket" right>Click here to raise a ticket</a>
+<hr>
+
+{% for info in tkt_info %}
+<form class="form-horizontal"
+      method="post"
+      enctype="multipart/form-data"
+      action="{% url 'raise_ticket' %}">
+
+          {% csrf_token %}
+
+            <table class="table table-striped">
+                {% if forloop.counter == 1 %}
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Subject</th>
+                  <th>Content</th>
+                  <th>Department</th>
+                  <th>Category</th>
+                  <th>Status</th>
+                  <th>Urgent</th>
+                  <th>Created on</th>
+                </tr>
+              </thead>
+                {% endif %}
+              <tbody>
+                <tr>
+                  <td class="action-checkbox"><input type="checkbox"
+                    name="_selected_action" class="action-select"
+                    value="{{ info.uuid }}"/></td>
+                  <td> <a href="{% url 'update_ticket' info.uuid %}">
+                     {{ info.subject }} </a>
+                   </td>
+                  <td>{{ info.content }}</td>
+                  <td>{{ info.get_department_display|upper }}</td>
+                  <td>{{ info.get_category_display }}</td>
+                  <td>{{ info.get_status_display }}</td>
+                  <td>{{ info.urgent }}</td>
+                  <td>{{ info.created_at }}</td>
+
+                </tr>
+              </tbody>
+            </table>
+
+            <input type="hidden" name="ticket_uuid" value="{{ info.uuid }}">
+        </form>
+  {% endfor %}
+    </div>
+
+  {% endblock %}

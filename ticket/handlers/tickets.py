@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from ticket.choices import TicketStatus
 from ticket.dbapi import TicketActivityDbio, TrackTicketDbio
 from ticket.models import TicketActivity
+from ticket.utils import SearchPattern
 
 
 class TicketAct:
@@ -14,12 +15,7 @@ class TicketAct:
             'category': data.get('category'),
             'urgent': data.get('urgent')
         }
-        obj = TicketActivityDbio().create_obj(tkt_data)
-        return obj
-        # return {
-        #     'message': 'Ticket has been raised successfully',
-        #     'tkt_uuid': obj.uuid
-        # }
+        return TicketActivityDbio().create_obj(tkt_data)
 
     def get_all_tickets(self):
         objs = TicketActivity.objects.all()
@@ -28,13 +24,6 @@ class TicketAct:
                 'message': 'No tickets are available'
             }
         return objs
-        # tkt_list = []
-        # for obj in objs:
-        #     tkt_data = {
-        #         'tkt_uuid': obj.uuid
-        #     }
-        #     tkt_list.append(tkt_data)
-        # return tkt_list
 
     def get_with_state(self, dept=None, cat=None, state=None, urgent=None):
         if dept is not None:
@@ -78,12 +67,7 @@ class TicketAct:
             'category': data.get('category', obj.category),
             'urgent': data.get('urgent', obj.urgent)
         }
-        TicketActivityDbio().update_obj(obj, tkt_data)
-        return obj
-        # return {
-        #     'message': 'Ticket has been modified',
-        #     'ticket_uuid': obj.uuid
-        # }
+        return TicketActivityDbio().update_obj(obj, tkt_data)
 
     def delete_ticket(self, ticket_uuid):
         TicketActivityDbio().get_object(
@@ -96,7 +80,6 @@ class TicketAct:
         }
 
     def assigne_ticket(self, data):
-        # import ipdb; ipdb.set_trace()
         from_obj = User.objects.get(id=data['from_id'])
         to_obj = User.objects.get(id=data['to_id'])
         obj = TicketActivityDbio().get_object(
@@ -125,3 +108,9 @@ class TicketAct:
                 'uuid': ticket_uuid
             }
         )
+
+    def new_search_implement(self, param):
+        res = SearchPattern().in_choices(param.lower())
+        if res is not None:
+            for model, cat in res.items():
+                return TicketActivityDbio().filter_objects({model: cat})

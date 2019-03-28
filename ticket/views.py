@@ -7,7 +7,6 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-# from ticket.models import TicketActivity
 from ticket.constants import RAISE_TICKET_TEMPLATE, All_TICKET_TEMPLATE
 from ticket.handlers.tickets import TicketAct
 
@@ -15,7 +14,10 @@ from ticket.handlers.tickets import TicketAct
 class TicketActivityView(APIView):
 
     def get(self, request):
-        # import ipdb; ipdb.set_trace()
+        if len(request.query_params) is not 0:
+            param = request.query_params.get('search')
+            objs = TicketAct().new_search_implement(param)
+            return render(request, 'searchpage.html', {'tkt_info': objs})
         objs = TicketAct().get_all_tickets()
         if 'message' in objs:
             return render(request, 'no_ticket.html')
